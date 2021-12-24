@@ -16,8 +16,6 @@ Required packages:
   * Node.js
   * Express.js
 
-## Usage
-
 To invoke the application run these commands in the terminal:
 
 ```bash
@@ -25,15 +23,19 @@ npm i
 npm start
 ```
 
-This will start the server. If started through your local machine, the server will run on `http://localhost:3001/`. 
+This will start the server.
+
+## Usage
+
+If started through your local machine, the server will run on `http://localhost:3001/`. 
 
 If accessing through Heroku, the server can be found at `https://tommys-fitness.herokuapp.com/`.
 
 ### Routes
 
 * `/api/fitness/`
-    * `GET` fitness data
-    * `POST` fitness data
+    * `GET` fitness data.
+    * `POST` fitness data.
 
 ## Questions
 
