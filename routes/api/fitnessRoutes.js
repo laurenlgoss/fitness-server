@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { readFromFile, readAndAppend } = require('../../utils/fsUtils');
-const test = require('../../db/fitness.json')
+const { readFromFile, replaceFile } = require('../../utils/fsUtils');
+const test = require('../../db/fitness.json');
 
 // /api/fitness/
 // GET fitness data
@@ -17,8 +17,8 @@ router.get('/', async (req, res) => {
 // POST fitness data
 router.post('/', (req, res) => {
   try {
-    readAndAppend(req.body, './db/fitness.json');
-    res.json('Fitness data added successfully');
+    replaceFile(req.body, './db/fitness.json');
+    res.json({ message: 'Fitness data added successfully', data: req.body });
   } catch (err) {
     res.status(400).json(err);
   }
