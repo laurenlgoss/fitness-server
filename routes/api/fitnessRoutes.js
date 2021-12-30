@@ -1,27 +1,35 @@
 const router = require('express').Router();
-const { readFromFile, replaceFile } = require('../../utils/fsUtils');
-const test = require('../../db/fitness.json');
+const db = require('../../config/connection');
 
 // /api/fitness/
 // GET fitness data
 router.get('/', async (req, res) => {
-  try {
-    const fitnessData = await readFromFile('./db/fitness.json');
-    res.json(JSON.parse(fitnessData));
-  } catch (err) {
-    res.status(400).json(err);
-  }
+  db.fitness.find({}, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(data);
+    }
+  });
 });
 
 // /api/fitness/
 // POST fitness data
-router.post('/', (req, res) => {
-  try {
-    replaceFile(req.body, './db/fitness.json');
-    res.json({ message: 'Fitness data added successfully', data: req.body });
-  } catch (err) {
-    res.status(400).json(err);
-  }
+router.post('/', async (req, res) => {
+  // Delete all data from db before posting new
+  await db.fitness.remove({}, (err, data) => {
+    if (err) {
+      res.send(err);
+    }
+  });
+
+  await db.fitness.insert(req.body, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(data);
+    }
+  });
 });
 
 module.exports = router;
