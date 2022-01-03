@@ -23,7 +23,13 @@ router.post('/', async (req, res) => {
     }
   });
 
-  await db.fitness.insert(req.body, (err, data) => {
+  // Add current time to db entry
+  const currentTime = new Date;
+  const dataWithTime = {
+    ...req.body, createdAt: currentTime
+  }
+
+  await db.fitness.insert(dataWithTime, (err, data) => {
     if (err) {
       res.send(err);
     } else {
